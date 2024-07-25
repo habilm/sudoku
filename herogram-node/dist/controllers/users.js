@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Login = exports.Register = void 0;
 const client_1 = require("@prisma/client");
 const bcript_1 = require("../utilities/bcript");
+const jwt_1 = require("../utilities/jwt");
 const prisma = new client_1.PrismaClient();
 const Register = function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -25,6 +26,7 @@ const Register = function (req, res) {
                 res
                     .status(400)
                     .json({ status: "error", message: "Account already exist" });
+                return;
             }
             else {
                 const data = req.body;
@@ -34,6 +36,7 @@ const Register = function (req, res) {
                     status: "success",
                     message: "Account has been created successfully",
                 });
+                return;
             }
         }
         catch (er) {
@@ -58,7 +61,16 @@ const Login = function (req, res) {
                 });
             }
             if (yield (0, bcript_1.comparePasswords)(req.body.password, (user === null || user === void 0 ? void 0 : user.password) || "--@")) {
-                res.json({ status: "success", message: "Login success" }).status(500);
+                res
+                    .json({
+                    status: "success",
+                    message: "Login success",
+                    data: {
+                        full_name: user === null || user === void 0 ? void 0 : user.full_name,
+                        token: (0, jwt_1.getToken)((user === null || user === void 0 ? void 0 : user.id) || 0),
+                    },
+                })
+                    .status(500);
             }
             else {
                 res.status(400).json({

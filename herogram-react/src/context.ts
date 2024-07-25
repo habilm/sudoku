@@ -13,7 +13,7 @@ const userD: TypeCurrentUser = JSON.parse(
   window.localStorage.getItem("_u") || "[]"
 );
 
-export const CurrentUser = await createContext<TypeCurrentUserContext>({
+export const CurrentUser = createContext<TypeCurrentUserContext>({
   currentUser: userD,
   setCurrentUser: (u) => {
     u;

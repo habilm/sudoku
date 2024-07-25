@@ -5,7 +5,7 @@ import { z } from "zod";
 import config from "../../config.json";
 import { zodResolver } from "@hookform/resolvers/zod";
 import TextInput from "../components/form/TextInput";
-import { useNavigate } from "react-router-dom";
+
 import { useState, useContext } from "react";
 import { CurrentUser } from "../context";
 
@@ -21,7 +21,7 @@ type SignUpSchemaType = z.infer<typeof RegisterSchema>;
 
 function Login() {
   const [popup, setPopup] = useState("");
-  const redirect = useNavigate();
+
   const { setCurrentUser } = useContext(CurrentUser);
 
   const onSubmit: SubmitHandler<SignUpSchemaType> = async (e) => {

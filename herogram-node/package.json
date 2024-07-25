@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "npx nodemon"
+    "dev": "npx nodemon",
+    "build": "npx tsc"
   },
   "dependencies": {
     "@prisma/client": "^5.17.0",

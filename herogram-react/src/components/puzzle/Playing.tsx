@@ -48,6 +48,11 @@ function Playing({ level }: { level: number }) {
                   <input
                     value={col || ""}
                     className="w-full h-full block text-center"
+                    style={{
+                      borderColor: "black",
+                      borderLeftWidth: j > 0 && j % 3 === 0 ? "1px" : "",
+                      borderTopWidth: i > 0 && i % 3 === 0 ? "1px" : "",
+                    }}
                     onChange={(e) => {
                       enterNumber(i, j, e?.target?.value);
                     }}
