@@ -6,7 +6,8 @@ import config from "../../config.json";
 import { zodResolver } from "@hookform/resolvers/zod";
 import TextInput from "../components/form/TextInput";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { CurrentUser } from "../context";
 
 const RegisterSchema = z.object({
   email: z.string().email().max(200),
@@ -21,6 +22,7 @@ type SignUpSchemaType = z.infer<typeof RegisterSchema>;
 function Login() {
   const [popup, setPopup] = useState("");
   const redirect = useNavigate();
+  const { setCurrentUser } = useContext(CurrentUser);
 
   const onSubmit: SubmitHandler<SignUpSchemaType> = async (e) => {
     const fetchRes = await fetch(config.API_BASE_URL + "/v1/login", {
@@ -31,9 +33,7 @@ function Login() {
     const data = await fetchRes.json();
     if (fetchRes.status == 200) {
       setPopup(data.message);
-      setTimeout(function () {
-        redirect("/play", { replace: true });
-      }, 2000);
+      setCurrentUser(data.data);
     } else {
       setPopup(data.message || "Something Went wrong");
     }

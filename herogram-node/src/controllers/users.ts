@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { PrismaClient, users } from "@prisma/client";
 import { comparePasswords, hashPassword } from "../utilities/bcript";
+import { getToken } from "../utilities/jwt";
 const prisma = new PrismaClient();
 export const Register = async function (req: Request, res: Response) {
   try {
@@ -48,7 +49,16 @@ export const Login = async function (req: Request, res: Response) {
     }
 
     if (await comparePasswords(req.body.password, user?.password || "--@")) {
-      res.json({ status: "success", message: "Login success" }).status(500);
+      res
+        .json({
+          status: "success",
+          message: "Login success",
+          data: {
+            full_name: user?.full_name,
+            token: getToken(user?.id || 0),
+          },
+        })
+        .status(500);
     } else {
       res.status(400).json({
         status: "error",

@@ -32,8 +32,9 @@ export default function Register() {
     const data = await fetchRes.json();
     if (fetchRes.status == 200) {
       setPopup(data.message);
+
       setTimeout(function () {
-        redirect("/", { replace: true });
+        redirect("/login", { replace: true });
       }, 2000);
     } else {
       setPopup(data.message || "Something Went wrong");
